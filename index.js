@@ -34,7 +34,13 @@ async function replyMsg(textMsg) {
     const responses = await sessionClient.detectIntent(request);
     const result = responses[0].queryResult;
 
-    return result.fulfillmentText;
+    if(result.fulfillmentText !== '' && result.fulfillmentText != null) {
+        return result.fulfillmentText;
+    } else if (result.fulfillmentMessages !== null && result.fulfillmentMessages[0] !== undefined) {
+        return result.fulfillmentMessages[0].text.text;
+    }
+
+    return;
 }
 
 client.on("ready", () => {
